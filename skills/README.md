@@ -1,33 +1,117 @@
-# Skills — the router
+# SEO Content Optimization using Data Analysis
 
-This folder is a small library of **skills**: focused instruction files your AI assistant loads
-one at a time. One skill per task keeps the assistant sharp — its context window is small, and
-filling it with everything makes it worse at the one thing you need.
+## Author
 
-**How to use it (repo-reading agents — Claude Code, Cursor, Codex):** they find this file
-automatically via `AGENTS.md` / `CLAUDE.md`. Just tell your assistant which task you're doing.
+Umm-e-Kalsoom
 
-**Using a chat-only assistant (ChatGPT / Gemini in a browser)?** Open the skill file on GitHub,
-copy its whole content, and paste it into your chat before asking for help. That's it.
+## Overview
 
-## The table — find your task, load ONE skill
+This project supports SEO content optimization by identifying web pages that should be reviewed first.
 
-| Your task | Load this skill | Also load for data work |
-|---|---|---|
-| Any task — how to work with your assistant at all | `directing-your-ai-assistant/SKILL.md` | — |
-| Pick a lane, frame your question (ML-02, ML-03) | `framing-ml-problems/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Write + verify the data contract (ML-04) | `writing-data-contracts/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Query the big warehouse without downloading it (ML-04/05, capstone) | `querying-big-datasets/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| EDA + signal tests with verdicts (ML-06) | `auditing-signals/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Build the rule baseline + ranked queue (ML-07) | `building-baselines/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Train and compare the model (ML-08) | `training-honest-models/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Hunt leakage; validate honestly (ML-05, ML-09) | `hunting-leakage-and-validating/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
-| Write claims that hold (ML-09, ML-10, the paper) | `writing-honest-claims/SKILL.md` | — |
-| Write the research paper (ML-11, W7) | `writing-research-papers/SKILL.md` | — |
-| Deploy the paper as a page (ML-11) | `deploying-static-pages/SKILL.md` | — |
-| Understand FlyRank + the problem (background) | `flyrank/flyrank-context/SKILL.md` | — |
+The workflow uses a transparent baseline priority score based mainly on Click-Through Rate (CTR) and average search position.
 
-## Reuse this on your next project
+The output is a ranked review queue with a priority score, reason code, and recommended action.
 
-Every skill outside `flyrank/` is **general** — take this whole folder to any future project.
-Delete `skills/flyrank/` and the flyrank column above, and everything else still works.
+## Research Question
+
+Which SEO pages should be prioritized for human review based on observed CTR and average search position?
+
+## Unit of Analysis
+
+Web page.
+
+## Dataset
+
+The project uses the FlyRank internship anonymized SEO dataset.
+
+- 30,000 rows
+- 44 columns
+- SEO-related performance and content signals
+
+No client names, private queries, or client-identifying information are included.
+
+## Method
+
+The baseline uses two main signals:
+
+- CTR
+- Average search position
+
+Pages with lower CTR and poorer average position receive higher priority for review.
+
+The output contains:
+
+- Priority rank
+- Content ID
+- CTR
+- Average position
+- Priority score
+- Reason code
+- Recommended action
+
+## Example Recommendation
+
+A high-priority page may have:
+
+- Very low CTR
+- Poor average search position
+- Reason code: `CTR_LOW_POSITION`
+
+The recommended action is to review the page's title, search intent, meta description, and on-page content.
+
+## Results
+
+The baseline produced a ranked queue of 30,000 pages.
+
+The highest-priority page in the reviewed output had:
+
+- CTR: 0.0
+- Average position: 245.0
+- Priority score: 21.491228
+- Reason code: `CTR_LOW_POSITION`
+
+The top-20 review showed that the highest-priority pages generally had very low CTR together with poor average search positions.
+
+These results are descriptive and directional. They do not prove that an SEO change will cause CTR to increase.
+
+## Recommendations
+
+A content editor can:
+
+1. Start with the highest-priority pages.
+2. Check whether there are enough impressions for meaningful review.
+3. Review the title and meta description.
+4. Check search intent and content relevance.
+5. Review content freshness and quality.
+6. Decide whether an update is appropriate.
+7. Monitor performance after the update.
+
+## Limitations
+
+The ranking is decision support, not causal evidence.
+
+A high priority score does not guarantee that an SEO update will improve CTR.
+
+Other factors such as search intent, seasonality, SERP features, and insufficient impressions can affect performance.
+
+The final decision should remain with a human editor.
+
+## Technologies
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Jupyter / Google Colab
+
+## Repository
+
+https://github.com/umm319/flyrank-ml-internship
+
+## Capstone Notebook
+
+`work/notebooks/capstone.ipynb`
+
+## GitHub Pages
+
+https://umm319.github.io/flyrank-ml-internship/
